@@ -2,7 +2,7 @@
 layout: home
 permalink: index.html
 
-# Please update this with your repository name and project title
+# AUTOMATED GRASS CUTTER
 repository-name: e19-3yp-Automated-grass-cutter
 title: Automated Grass Cutter
 ---
