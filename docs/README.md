@@ -3,8 +3,8 @@ layout: home
 permalink: index.html
 
 # Please update this with your repository name and project title
-repository-name: eYY-3yp-project-template
-title: Project Template
+repository-name: e19-3yp-Automated-grass-cutter
+title: Automated Grass Cutter
 ---
 
 [comment]: # "This is the standard layout for the project, but you can clean this and use your own template"
@@ -14,9 +14,11 @@ title: Project Template
 ---
 
 ## Team
--  eNumber, Name, [email](mailto:name@email.com)
--  eNumber, Name, [email](mailto:name@email.com)
--  eNumber, Name, [email](mailto:name@email.com)
+-  E/19/007, Achsuthan T., e19007@eng.pdn.ac.lk
+-  E/19/069, Delini S., e19069@eng.pdn.ac.lk
+-  E/19/134, Harnan M., e19134@eng.pdn.ac.lk
+-  E/19/174,Jegatheesan S., e19174@eng.pdn.ac.lk
+-  E/19/494, Thevambikai T.,e19494@eng.pdn.ac.lk
 
 <!-- Image (photo/drawing of the final hardware) should be here -->
 
@@ -34,9 +36,7 @@ title: Project Template
 7. [Links](#links)
 
 ## Introduction
-
-Description of the real world problem and solution, impact
-
+In a world where automation is becoming increasingly prevalent, our project introduces a cutting-edge solution for maintaining lush and well-manicured lawns. The Automated Grass Cutter combines innovative technology with the age-old task of grass cutting, bringing forth a new era in lawn maintenance.
 
 ## Solution Architecture
 
