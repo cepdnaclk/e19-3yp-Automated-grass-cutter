@@ -71,6 +71,11 @@ h6 {
   }
 }
 
+#preloader-text {
+  text-align: center;
+  margin-top: 20px;
+  color: white; /* Adjust the text color as needed */
+}
 /*--------------------------------------------------------------
 # Back to top button
 --------------------------------------------------------------*/
