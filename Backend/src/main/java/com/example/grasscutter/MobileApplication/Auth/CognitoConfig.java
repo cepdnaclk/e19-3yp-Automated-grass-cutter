@@ -22,7 +22,7 @@ public class CognitoConfig {
         BasicAWSCredentials awsCreds = new BasicAWSCredentials(accessKey, secretKey);
 
         return AWSCognitoIdentityProviderClientBuilder.standard()
-                .withCredentials(new AWSStaticCredentialsProvider(awsCreds)).withRegion("us-east-1")
+                .withCredentials(new AWSStaticCredentialsProvider(awsCreds)).withRegion("ap-south-1")
                 .build();
     }
 }
