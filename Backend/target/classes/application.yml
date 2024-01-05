@@ -1,0 +1,28 @@
+#spring:
+#  data:
+#    mongodb:
+#      host: ec2-65-0-5-184.ap-south-1.compute.amazonaws.com
+#      port: 27017
+#      database: LawnMate
+#      username: Harnan
+#      password: abcd1234
+
+#  security:
+#    oauth2:
+#      client:
+#        registration:
+#          cognito:
+#            client-id: 251ssvehu62es8pcjjvjhggeb0
+#            client-secret: 6vla2cbt398db92kag451uhh6vqnkt48e939ln776vsdh6j2od9
+#            client-name: cognito
+#            provider: cognito
+#        provider:
+#          cognito:
+#            issuer-uri: https://cognito-idp.ap-south-1.amazonaws.com/ap-south-1_rzbUFmKUC
+
+aws:
+  access-key: AKIAS6B2C4XUCYW6VEWM
+  access-secret: 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
+  cognito:
+    userPoolId: ap-south-1_SQstNYOKe
+    clientId: 5uknbnlq88jn5hh1sjm4nr77j1
