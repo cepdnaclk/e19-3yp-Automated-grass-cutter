@@ -44,6 +44,10 @@ export default function Login() {
           <Ionicons name={isPasswordVisible ? 'eye-off-outline' : 'eye-outline'} size={24} color="black" />
         </TouchableOpacity>
       </View>
+      {/* Login button */}
+      <TouchableOpacity style={styles.buttonlog} onPress={() => navigation.navigate('Home')}>
+        <Text style={styles.buttonText}>Login</Text>
+      </TouchableOpacity>
       <Text style={styles.normaltext}>Create new account</Text>
       {/* Signup Button */}
       <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Signup')}>
@@ -107,6 +111,17 @@ const styles = StyleSheet.create({
   button: {
     fontSize: 18,
     paddingHorizontal: 30,
+    paddingVertical: 10,
+    backgroundColor: '#a0a89e',
+    borderRadius: 50,
+    elevation: 3,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 20,
+  },
+  buttonlog: {
+    fontSize: 18,
+    paddingHorizontal: 50,
     paddingVertical: 10,
     backgroundColor: '#a0a89e',
     borderRadius: 50,

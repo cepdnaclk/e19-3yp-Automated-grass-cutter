@@ -14,7 +14,8 @@ install:
     npm install @react-navigation/native @react-navigation/native-stack
     npm install react-native-elements
     npm install expo-status-bar @expo/vector-icons
-    
+    npm install react-native-gesture-handler
+
 
 
 # Start the Expo development server

@@ -14,6 +14,7 @@ export default function Signup() {
     setPasswordVisible(prevState => !prevState);
   };
 
+  
   return (
     <SafeAreaView style={styles.container}>
       

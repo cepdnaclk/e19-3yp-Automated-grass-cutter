@@ -3,7 +3,7 @@ import { StyleSheet, View, Image, Text, SafeAreaView, TouchableOpacity } from 'r
 import { useNavigation } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
 
-export default function Welcome() {
+export default function Addlocation() {
   const navigation = useNavigation();
 
   const goToLogin = () => {
@@ -12,14 +12,8 @@ export default function Welcome() {
 
   return (
     <SafeAreaView style={styles.container}>
-      {/* Logo Image */}
-      <Image
-        source={require('../assets/logo.png')}
-        style={styles.logo}
-      />
-      <Text style={styles.text}>LAWNMATE</Text>
-      <TouchableOpacity style={styles.button} onPress={goToLogin}>
-        <Text style={styles.buttonText}>Go to Login</Text>
+      <TouchableOpacity style={styles.buttonlog} onPress={() => navigation.navigate('Location')}>
+        <Text style={styles.buttonText}>Add Location</Text>
       </TouchableOpacity>
       <StatusBar style="auto" />
     </SafeAreaView>
@@ -33,23 +27,20 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  logo: {
-    width: 300,
-    height: 300,
-    marginBottom: -40,
+  buttonContainer: {
+    flexDirection: 'row',  // Arrange children horizontally
+    marginBottom: 20,  // Add some spacing below the buttons
   },
-  text: {
-    fontSize: 50,
-  },
-  button: {
-    fontSize: 18,  
-    paddingHorizontal: 30,  
-    paddingVertical: 10,   
-    backgroundColor: '#a0a89e',  
-    borderRadius: 50,   
+  buttonlog: {
+    fontSize: 18,
+    paddingHorizontal: 50,
+    paddingVertical: 10,
+    backgroundColor: '#a0a89e',
+    borderRadius: 50,
     elevation: 3,
-    alignItems: 'center',  // Align the text horizontally
-    justifyContent: 'center',  // Align the text vertically
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 20,
   },
   buttonText: {
     color: '#000000',
