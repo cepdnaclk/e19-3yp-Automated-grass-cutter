@@ -1,23 +1,15 @@
 package com.example.grasscutter.MobileApplication.Auth;
 
+import com.amazonaws.services.cognitoidp.model.*;
+
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import com.amazonaws.services.cognitoidp.AWSCognitoIdentityProvider;
-import com.amazonaws.services.cognitoidp.model.AdminCreateUserRequest;
-import com.amazonaws.services.cognitoidp.model.AdminCreateUserResult;
-import com.amazonaws.services.cognitoidp.model.AdminInitiateAuthRequest;
-import com.amazonaws.services.cognitoidp.model.AdminInitiateAuthResult;
-import com.amazonaws.services.cognitoidp.model.AdminRespondToAuthChallengeRequest;
-import com.amazonaws.services.cognitoidp.model.AdminRespondToAuthChallengeResult;
-import com.amazonaws.services.cognitoidp.model.AdminSetUserPasswordRequest;
-import com.amazonaws.services.cognitoidp.model.AttributeType;
-import com.amazonaws.services.cognitoidp.model.AuthFlowType;
-import com.amazonaws.services.cognitoidp.model.AuthenticationResultType;
-import com.amazonaws.services.cognitoidp.model.ChallengeNameType;
-import com.amazonaws.services.cognitoidp.model.DeliveryMediumType;
 import com.amazonaws.services.cognitoidp.model.MessageActionType;
 
 
@@ -33,21 +25,19 @@ public class UserServiceImpl implements UserService {
     @Value(value = "${aws.cognito.clientId}")
     private String clientId;
 
+    
     @Override
     public SignUpResponseDto signUp(SignUpRequestDto signUpRequest) {
-
         SignUpResponseDto signUpResponse = new SignUpResponseDto();
         try {
+            AttributeType emailAttr = new AttributeType().withName("email").withValue(signUpRequest.getEmail());
+            AttributeType passwordAttr = new AttributeType().withName("password").withValue(signUpRequest.getPassword());
 
-            AttributeType emailAttr =
-                    new AttributeType().withName("email").withValue(signUpRequest.getEmail());
-            AttributeType emailVerifiedAttr =
-                    new AttributeType().withName("email_verified").withValue("true");
-
-            AdminCreateUserRequest userRequest = new AdminCreateUserRequest().withUserPoolId(userPoolId)
-                    .withUsername(signUpRequest.getEmail()).withTemporaryPassword(signUpRequest.getPassword())
-                    .withUserAttributes(emailAttr, emailVerifiedAttr)
-                    .withMessageAction(MessageActionType.SUPPRESS)
+            AdminCreateUserRequest userRequest = new AdminCreateUserRequest()
+                    .withUserPoolId(userPoolId)
+                    .withUsername(signUpRequest.getEmail())
+                    .withUserAttributes(emailAttr, passwordAttr)
+                    .withMessageAction(MessageActionType.RESEND)
                     .withDesiredDeliveryMediums(DeliveryMediumType.EMAIL);
 
             AdminCreateUserResult createUserResult = cognitoClient.adminCreateUser(userRequest);
@@ -55,17 +45,36 @@ public class UserServiceImpl implements UserService {
             System.out.println("User " + createUserResult.getUser().getUsername()
                     + " is created. Status: " + createUserResult.getUser().getUserStatus());
 
-            // Disable force change password during first login
-            AdminSetUserPasswordRequest adminSetUserPasswordRequest = new AdminSetUserPasswordRequest()
-                    .withUsername(signUpRequest.getEmail()).withUserPoolId(userPoolId)
-                    .withPassword(signUpRequest.getPassword()).withPermanent(true);
+            // Check the user's current status
+            String userStatus = createUserResult.getUser().getUserStatus();
 
-            cognitoClient.adminSetUserPassword(adminSetUserPasswordRequest);
+            // Verify if the user has already been verified
+            boolean isEmailVerified = false;
+            for (AttributeType attribute : createUserResult.getUser().getAttributes()) {
+                if (attribute.getName().equals("email_verified") && attribute.getValue().equals("true")) {
+                    isEmailVerified = true;
+                    break;
+                }
+            }
+
+            // If the user is not in FORCE_CHANGE_PASSWORD state and is not already verified, manually verify the email
+            if (!userStatus.equals("FORCE_CHANGE_PASSWORD") && !isEmailVerified) {
+                List<AttributeType> attributesToUpdate = new ArrayList<>();
+                attributesToUpdate.add(new AttributeType().withName("email_verified").withValue("true"));
+
+                AdminUpdateUserAttributesRequest updateAttributesRequest = new AdminUpdateUserAttributesRequest()
+                        .withUsername(signUpRequest.getEmail())
+                        .withUserPoolId(userPoolId)
+                        .withUserAttributes(attributesToUpdate);
+
+                cognitoClient.adminUpdateUserAttributes(updateAttributesRequest);
+            }
+
             signUpResponse.setStatusCode(0);
             signUpResponse.setStatusMessage("Successfully created user account.");
         } catch (Exception e) {
             e.printStackTrace();
-            throw new ValidationException("Error during sign up : " + e.getMessage());
+            throw new ValidationException("Error during sign up: " + e.getMessage());
         }
         return signUpResponse;
     }
