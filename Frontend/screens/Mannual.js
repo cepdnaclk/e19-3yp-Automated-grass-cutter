@@ -3,6 +3,7 @@ import { StyleSheet, View, Text, SafeAreaView, TouchableOpacity, PanResponder, I
 import { useNavigation } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
 
+
 export default function Addlocation() {
   const navigation = useNavigation();
 

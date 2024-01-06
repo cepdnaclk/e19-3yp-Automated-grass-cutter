@@ -37,7 +37,7 @@ export default function Home() {
           <TouchableOpacity style={styles.imageButton} onPress={() => navigation.navigate('Man_or_Auto')}>
             <Image source={require('../assets/homeicon.png')} style={styles.imageButtonImage} />
           </TouchableOpacity>
-          <TouchableOpacity style={styles.imageButton} onPress={() => navigation.navigate('Man_or_Auto')}>
+          <TouchableOpacity style={styles.imageButton} onPress={() => navigation.navigate('Adddevice')}>
             <Image source={require('../assets/deviceicon.png')} style={styles.imageButtonImage} />
           </TouchableOpacity>
           <TouchableOpacity style={styles.imageButton} onPress={() => navigation.navigate('Addlocation')}>
