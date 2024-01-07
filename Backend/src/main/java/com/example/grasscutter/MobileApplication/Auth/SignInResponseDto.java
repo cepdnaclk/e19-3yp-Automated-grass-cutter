@@ -20,6 +20,7 @@ public class SignInResponseDto {
     private String tokenType;
     private String scope;
     private Integer expiresIn;
+    private String userId;
 
 }
 
