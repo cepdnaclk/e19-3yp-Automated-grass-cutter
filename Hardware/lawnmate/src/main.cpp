@@ -21,18 +21,12 @@ const byte MOTOR1 = 19;  // Motor 1 Interrupt Pin - INT 3
 unsigned int counter1 = 0; // to count encoder values
 String readString;
 MPU6050 mpu6050(Wire);
+long timer = 0;
 
-float gyroX;
-float gyroY;
-float gyroZ;
-
-float tempX;
-float tempY;
-float tempZ;
 
 const int timerInterval = 1000;  // Timer interval in milliseconds (adjust as needed)
 unsigned long previousMillis = 0;
-unsigned long currentMillis;
+
 
 void ISR_count1()  
 {
@@ -45,41 +39,30 @@ void setup()
   Serial.begin(9600);
   Serial2.begin(9600);  //Set the baud rate to your Bluetooth module.
   Serial3.begin(9600);  //Set the sim800l module
+  Wire.begin();
   attachInterrupt(digitalPinToInterrupt (MOTOR1), ISR_count1, RISING);  // Increase counter 1 when speed sensor pin goes High
   mpu6050.begin();
   mpu6050.calcGyroOffsets(true);
-  gyroX = mpu6050.getAngleX();
-  gyroY = mpu6050.getAngleY();
-  gyroZ = mpu6050.getAngleZ();
-
-  tempX = gyroX;
-  tempY = gyroY;
-  tempZ = gyroZ;
-
+  motor1.setSpeed(250);   //Set Motor Speed
+  motor2.setSpeed(250);
+  motor3.setSpeed(250);
+  motor4.setSpeed(250);
 }
 
 
 void loop() {
 
-  currentMillis = millis();
-
-  if (currentMillis - previousMillis >= timerInterval) {
-        previousMillis = currentMillis;
-        gyroX = mpu6050.getAccAngleX();
-        gyroY = mpu6050.getAccAngleY();
-        gyroZ = mpu6050.getAngleZ();
-
-        if (gyroX - tempX == 5 || gyroY-tempY == 5){
-
-          Serial.print("angleX : ");Serial.print(gyroX - tempX);
-          Serial.print("angleY : ");Serial.print(gyroY - tempY);
-          Serial.print("Distance : ");Serial.print(counter1);
-
-          counter1 = 0;
-          tempX = gyroX;
-          tempY = gyroY;
-          tempZ = gyroZ;
-        }
+  if(millis() - timer > timerInterval){
+    mpu6050.update();
+    Serial.println("=======================================================");
+    
+    Serial.print("angleX : ");Serial.print(mpu6050.getAngleX());
+    Serial.print("	angleY : ");Serial.print(mpu6050.getAngleY());
+    Serial.print("	angleZ : ");Serial.print(mpu6050.getAngleZ());
+    Serial.print("Distance : ");Serial.println(counter1);
+    Serial.println("=======================================================");
+    timer = millis();
+    
   }
 
   while(Serial1.available()){
