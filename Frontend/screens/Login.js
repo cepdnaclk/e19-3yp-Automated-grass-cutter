@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, Image, Text, SafeAreaView, TouchableOpacity, TextInput } from 'react-native';
+import { StyleSheet, View, Image, Text, SafeAreaView, TouchableOpacity, TextInput ,Alert} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';  // Import Ionicons from expo
+import { loginUser } from '../api/api';
 
 export default function Login() {
   const navigation = useNavigation();
@@ -11,6 +12,23 @@ export default function Login() {
 
   const togglePasswordVisibility = () => {
     setPasswordVisible(prevState => !prevState);
+  };
+
+  const handleLogin = async () => {
+    try {
+      // Call the loginUser function with email and password
+      const response = await loginUser(email, password);
+      
+      // Check if the response contains accessToken
+      if (response.accessToken) {
+        // Navigate to the 'Home' screen
+        navigation.navigate('Home');
+      } else {
+        Alert.alert('Error', 'Login failed. Please try again.');
+      }
+    } catch (error) {
+      Alert.alert('Error', 'Login failed. Please try again.');
+    }
   };
 
   return (
@@ -43,7 +61,7 @@ export default function Login() {
         
       </View>
       {/* Login button */}
-      <TouchableOpacity style={styles.buttonlog} onPress={() => navigation.navigate('Home')}>
+      <TouchableOpacity style={styles.buttonlog} onPress={handleLogin}>
         <Text style={styles.buttonText}>Login</Text>
       </TouchableOpacity>
       <Text style={styles.normaltext}>Create new account</Text>
