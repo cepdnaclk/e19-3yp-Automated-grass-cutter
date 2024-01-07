@@ -25,7 +25,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.cors(cors -> cors.disable()).csrf(csrf -> csrf.disable())
-                .authorizeHttpRequests((authz) -> authz.requestMatchers("/users/*", "/users/signin")
+                .authorizeHttpRequests((authz) -> authz.requestMatchers("/users/*","/iot/*", "/users/signin")
                         .permitAll().anyRequest().authenticated())
                 .sessionManagement((sessionManagement) -> {
                     sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS);

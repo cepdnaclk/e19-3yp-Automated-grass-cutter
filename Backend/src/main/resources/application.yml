@@ -7,6 +7,20 @@
 #      username: Harnan
 #      password: abcd1234
 
+spring:
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: LawnMate
+      username: mongo
+      password: abc123
+      authentication-database: LawnMate
+      authentication-mechanism: SCRAM-SHA-256 # Use only one mechanism
+
+
+
+
 #  security:
 #    oauth2:
 #      client:
