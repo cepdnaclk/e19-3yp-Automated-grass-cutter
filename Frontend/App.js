@@ -9,6 +9,9 @@ import Man_or_Auto from './screens/Man_or_Auto';
 import Addlocation from './screens/Addlocation';
 import Location from './screens/Location';
 import Mannual from './screens/Mannual';
+import Mannualdraft from './screens/Mannualdraft';
+import Adddevice from './screens/Adddevice';
+import DeviceForm from './screens/DeviceForm';
 
 
 const Stack = createNativeStackNavigator();
@@ -25,6 +28,9 @@ export default function App() {
         <Stack.Screen name="Addlocation" component={Addlocation} />
         <Stack.Screen name="Location" component={Location} />
         <Stack.Screen name="Mannual" component={Mannual} />
+        <Stack.Screen name="Mannualdraft" component={Mannualdraft} />
+        <Stack.Screen name="Adddevice" component={Adddevice} />
+        <Stack.Screen name="DeviceForm" component={DeviceForm} />
         
       </Stack.Navigator>
     </NavigationContainer>
