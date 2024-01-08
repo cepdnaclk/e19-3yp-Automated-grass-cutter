@@ -11,7 +11,7 @@ export default function Location() {
   const handleLocNameChange = (text) => {
     setLocName(text);
     setIsLocNameFilled(!!text);
-    setShowMessage(false); // Hide message when input is changed
+    setShowMessage(false); 
   };
 
   const handleBoundaryPress = () => {
@@ -20,7 +20,7 @@ export default function Location() {
       Alert.alert('Warning', 'Please specify the location name first.');
       return; 
     }
-    navigation.navigate('Mannualdraft');
+    navigation.navigate('Mannual');
   };
 
   return (
@@ -43,12 +43,7 @@ export default function Location() {
       </TouchableOpacity>
       
       {/* Add Pattern Button */}
-      <TouchableOpacity 
-        style={styles.addbutton} 
-        onPress={() => isLocNameFilled && navigation.navigate('Mannualdraft')}
-      >
-          <Text style={styles.buttonText}>Add Pattern</Text>
-      </TouchableOpacity>
+     
 
       {showMessage && <Text style={styles.warningText}>Please specify the location name first.</Text>}
       
@@ -83,7 +78,7 @@ const styles = StyleSheet.create({
   },
 
   addbutton: {
-    width: 200, // Set the width for both buttons to be the same
+    width: 200, 
     fontSize: 18,
     paddingHorizontal: 40,
     paddingVertical: 10,
