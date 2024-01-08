@@ -18,9 +18,9 @@ export default function Location() {
     if (!isLocNameFilled) {
       setShowMessage(true);
       Alert.alert('Warning', 'Please specify the location name first.');
-      return;
+      return; 
     }
-    navigation.navigate('Mannual');
+    navigation.navigate('Mannualdraft');
   };
 
   return (
@@ -45,7 +45,7 @@ export default function Location() {
       {/* Add Pattern Button */}
       <TouchableOpacity 
         style={styles.addbutton} 
-        onPress={() => isLocNameFilled && navigation.navigate('Mannual')}
+        onPress={() => isLocNameFilled && navigation.navigate('Mannualdraft')}
       >
           <Text style={styles.buttonText}>Add Pattern</Text>
       </TouchableOpacity>

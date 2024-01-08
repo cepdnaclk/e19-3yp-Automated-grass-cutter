@@ -15,7 +15,8 @@ install:
     npm install react-native-elements
     npm install expo-status-bar @expo/vector-icons
     npm install react-native-gesture-handler
-
+	npm install react-native-ble-manager
+	npm install axios
 
 
 # Start the Expo development server

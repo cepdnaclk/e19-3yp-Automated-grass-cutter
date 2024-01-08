@@ -1,32 +1,38 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, Text, SafeAreaView, TouchableOpacity, TextInput } from 'react-native';
+import { StyleSheet, View, Text, SafeAreaView, TouchableOpacity, TextInput, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { Ionicons } from '@expo/vector-icons';  // Import Ionicons from expo
+import { Ionicons } from '@expo/vector-icons';
+import { signupUser } from '../api/api';
 
 export default function Signup() {
   const navigation = useNavigation();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [isPasswordVisible, setPasswordVisible] = useState(false);
 
   const togglePasswordVisibility = () => {
     setPasswordVisible(prevState => !prevState);
   };
 
-  
+  const handleSignup = async () => {
+    if (password !== confirmPassword) {
+      Alert.alert('Error', 'Passwords do not match! Please enter the same password in both fields.');
+      return;
+    }
+
+    try {
+      // await signupUser(email, password);   Temporarily comment because not connect to spring
+      navigation.navigate('Login');
+    } catch (error) {
+      Alert.alert('Error', 'Signup failed. Please try again.');
+    }
+  };
+
   return (
     <SafeAreaView style={styles.container}>
-      
-      <Text style={styles.text}>Name</Text>
-      {/* Name Input */}
-      <TextInput
-        style={styles.input}
-        value={name}
-        onChangeText={setName}
-      />
       <Text style={styles.text}>Email</Text>
-      {/* Email Input */}
       <TextInput
         style={styles.input}
         keyboardType="email-address"
@@ -34,36 +40,31 @@ export default function Signup() {
         onChangeText={setEmail}
       />
 
-      {/* Password Input */}
       <Text style={styles.text}>Password</Text>
       <View style={styles.passwordContainer}>
-
         <TextInput
           style={styles.passwordInput}
           secureTextEntry={!isPasswordVisible}
           value={password}
           onChangeText={setPassword}
         />
-        <TouchableOpacity onPress={togglePasswordVisibility} style={styles.eyeIconContainer}>
-          <Ionicons name={isPasswordVisible ? 'eye-off-outline' : 'eye-outline'} size={24} color="black" />
-        </TouchableOpacity>
+       
       </View>
+
       <Text style={styles.text}>Confirm Password</Text>
       <View style={styles.passwordContainer}>
-
         <TextInput
           style={styles.passwordInput}
           secureTextEntry={!isPasswordVisible}
-          value={password}
-          onChangeText={setPassword}
+          value={confirmPassword}
+          onChangeText={setConfirmPassword}
         />
-        <TouchableOpacity onPress={togglePasswordVisibility} style={styles.eyeIconContainer}>
-          <Ionicons name={isPasswordVisible ? 'eye-off-outline' : 'eye-outline'} size={24} color="black" />
-        </TouchableOpacity>
+        
       </View>
-      
-      {/* Signup Button */}
-      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Signup')}>
+      {/* <TouchableOpacity onPress={() => console.log(password, confirmPassword)}>
+        <Text>Log Passwords</Text>
+      </TouchableOpacity> */}
+      <TouchableOpacity style={styles.button} onPress={handleSignup}>
         <Text style={styles.buttonText}>Submit</Text>
       </TouchableOpacity>
     </SafeAreaView>
@@ -71,21 +72,18 @@ export default function Signup() {
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center', // Aligns children to the top
-        alignItems: 'flex-start',     // Aligns children to the start (left in LTR languages)
-        backgroundColor: '#DAFADA',
-        padding: 20, // Add some padding for better visual separation from the edges
-      },
-  
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'flex-start',
+    backgroundColor: '#DAFADA',
+    padding: 20,
+  },
   text: {
     fontSize: 15,
     marginBottom: 20,
     textAlign: 'left',
-    
   },
-  
   input: {
     width: 300,
     height: 40,
@@ -107,9 +105,10 @@ const styles = StyleSheet.create({
     borderColor: '#a0a89e',
   },
   passwordInput: {
-    flex: 1,
+    margin: -10,
     height: 40,
-    paddingRight: 40,  // Space for the eye icon
+    width: 300,
+    paddingRight: 40,
   },
   eyeIconContainer: {
     position: 'absolute',
@@ -126,7 +125,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginTop: 20,
-    alignSelf: 'center',  // Aligns the button itself to the center of its parent
+    alignSelf: 'center',
   },
   buttonText: {
     color: '#000000',

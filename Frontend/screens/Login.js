@@ -40,9 +40,7 @@ export default function Login() {
           value={password}
           onChangeText={setPassword}
         />
-        <TouchableOpacity onPress={togglePasswordVisibility} style={styles.eyeIconContainer}>
-          <Ionicons name={isPasswordVisible ? 'eye-off-outline' : 'eye-outline'} size={24} color="black" />
-        </TouchableOpacity>
+        
       </View>
       {/* Login button */}
       <TouchableOpacity style={styles.buttonlog} onPress={() => navigation.navigate('Home')}>
@@ -99,8 +97,9 @@ const styles = StyleSheet.create({
     borderColor: '#a0a89e',
   },
   passwordInput: {
-    flex: 1,
+    margin:-10,
     height: 40,
+    width: 300,
     paddingRight: 40,  // Space for the eye icon
   },
   eyeIconContainer: {
