@@ -1,58 +1,63 @@
-import React, { useState } from 'react';
-import { StyleSheet, View, Text, SafeAreaView, TouchableOpacity, PanResponder, Image } from 'react-native';
+import React from 'react';
+import { StyleSheet, View, Text, SafeAreaView, TouchableOpacity, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
-
 
 export default function Addlocation() {
   const navigation = useNavigation();
 
-  const [angle, setAngle] = useState(0);
-  const [isDragging, setIsDragging] = useState(false);
-
-  // Allowed angles
-  const allowedAngles = [45, 90, 135, 180, 225, 270, 315, 360];
-
-  const snapToNearestAngle = (currentAngle) => {
-    let nearestAngle = allowedAngles[0];
-    for (let i = 1; i < allowedAngles.length; i++) {
-      if (Math.abs(allowedAngles[i] - currentAngle) < Math.abs(nearestAngle - currentAngle)) {
-        nearestAngle = allowedAngles[i];
-      }
-    }
-    return nearestAngle;
+  const navigateToDirection = (direction) => {
+    console.log(`Navigating to ${direction}`);
   };
-
-  const panResponder = PanResponder.create({
-    onStartShouldSetPanResponder: () => true,
-    onPanResponderMove: (evt, gestureState) => {
-      setIsDragging(true);
-      const newAngle = snapToNearestAngle(angle + gestureState.dx / 2);
-      setAngle(newAngle);
-    },
-    onPanResponderRelease: () => {
-      setIsDragging(false);
-    },
-  });
 
   return (
     <SafeAreaView style={styles.container}>
       
-      {/* Gaming Wheel */}
-      <View style={styles.wheelContainer}>
-        <View 
-          style={[styles.wheel, { transform: [{ rotate: `${angle}deg` }] }]} 
-          {...panResponder.panHandlers}
-        >
-          <Image source={require('../assets/wheel.png')} style={styles.wheelImage} />
-          <TouchableOpacity style={styles.forwardbutton} >
-            {/* Forward button content, e.g., an icon or text */}
+      {/* Arrow Buttons in 3x3 Table Layout */}
+      <View style={styles.arrowTable}>
+        <View style={styles.row}>
+          <TouchableOpacity style={styles.arrowButton} >
+            <Image source={require('../assets/S.png')} style={styles.icon} />
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.arrowButton}>
+            <Image source={require('../assets/Forward.png')} style={styles.icon} />
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.arrowButton} >
+            <Image source={require('../assets/N.png')} style={styles.icon} />
+          </TouchableOpacity> 
+
+        </View>
+        <View style={styles.row}>
+          <TouchableOpacity style={styles.arrowButton} >
+            <Image source={require('../assets/Left.png')} style={styles.icon} />
+          </TouchableOpacity>
+          <View style={styles.centerButton}></View> {/* Empty center cell */}
+          <TouchableOpacity style={styles.arrowButton} >
+            
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.arrowButton} >
+            <Image source={require('../assets/Right.png')} style={styles.icon} />
+          </TouchableOpacity>
+        </View>
+        <View style={styles.row}>
+          <TouchableOpacity style={styles.arrowButton} >
+            <Image source={require('../assets/W.png')} style={styles.icon} />
+          </TouchableOpacity>
+          
+          <TouchableOpacity style={styles.arrowButton} >
+            <Image source={require('../assets/Backward.png')} style={styles.icon} />
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.arrowButton} >
+            <Image source={require('../assets/E.png')} style={styles.icon} />
           </TouchableOpacity>
         </View>
       </View>
       
       {/* Finish Button */}
-      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Location')}>
+      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Home')}>
         <Text style={styles.buttonText}>Finish</Text>
       </TouchableOpacity>
 
@@ -68,37 +73,32 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  wheelContainer: {
-    position: 'relative', // Make the container relative for positioning the forward button
-    width: 300,
-    height: 300,
-    alignItems: 'center',
+  arrowTable: {
+    flexDirection: 'column',
     justifyContent: 'center',
+    alignItems: 'center',
     marginBottom: 20,
   },
-  wheel: {
-    width: 300,
-    height: 300,
-    borderRadius: 150,
-    backgroundColor: '#3CA832',
+  row: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 20,
+  },
+  arrowButton: {
+    width: 50,
+    height: 50,
     justifyContent: 'center',
     alignItems: 'center',
-    position: 'relative', // Make the wheel relative for positioning the forward button
+    margin: 20,
   },
-  wheelImage: {
-    width: 240,  
-    height: 240, 
-    alignItems: 'center',
+  centerButton: {
+    width: 50,
+    height: 50,
   },
-  forwardbutton: {
-    position: 'absolute',
-    width: 40,
-    height: 40,
-    backgroundColor: '#000000',
-    borderRadius: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
-    zIndex: 1, // Ensure the forward button appears on top of the wheel
+  icon: {
+    width: 100,
+    height: 100,
+    resizeMode: 'contain',
   },
   button: {
     width: 200,

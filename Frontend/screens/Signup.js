@@ -23,7 +23,7 @@ export default function Signup() {
     }
 
     try {
-      // await signupUser(email, password);   Temporarily comment because not connect to spring
+      await signupUser(email, password);   
       navigation.navigate('Login');
     } catch (error) {
       Alert.alert('Error', 'Signup failed. Please try again.');
