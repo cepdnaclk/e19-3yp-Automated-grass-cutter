@@ -33,7 +33,7 @@ public class MQTTConfig {
     public void connectToIot() throws AWSIotException {
         client = new AWSIotMqttClient(clientEndpoint, clientId, awsAccessKeyId, awsSecretAccessKey, null);
 
-// optional parameters can be set before connect()
+        // optional parameters can be set before connect()
         client.connect();
 
         System.out.println("Connected to IOT");
@@ -71,20 +71,6 @@ public class MQTTConfig {
 
         // Subscribe to the specified topic
         client.subscribe(iotTopic, true);
-    }
-
-    private String extractUserIdFromPayload(String payload) {
-        try {
-            // Parse the JSON payload to get the SignInResponseDto
-            SignInResponseDto signInResponseDto = objectMapper.readValue(payload, SignInResponseDto.class);
-
-            // Assuming userId is a property of SignInResponseDto
-            return signInResponseDto.getUserId();
-        } catch (IOException e) {
-            e.printStackTrace(); // Log or handle the exception appropriately
-            System.err.println("Failed to extract userId from payload: " + payload);
-            return null;
-        }
     }
 
     private void saveToMongo( String payload) {

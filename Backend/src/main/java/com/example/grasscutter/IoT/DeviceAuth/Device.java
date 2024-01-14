@@ -3,17 +3,15 @@ package com.example.grasscutter.IoT.DeviceAuth;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.List;
-
 @Document(collection = "devices")
 public class Device {
 
     @Id
-    private String id;
+    private String id; // Device ID
 
-    private String deviceId;
-    private String deviceKey;
-    private List<String> userIds;  // List of user IDs associated with the device
+    private String hashedPassword;
+
+    // Getters and setters
 
     public String getId() {
         return id;
@@ -23,35 +21,11 @@ public class Device {
         this.id = id;
     }
 
-    public String getDeviceId() {
-        return deviceId;
+    public String getHashedPassword() {
+        return hashedPassword;
     }
 
-    public void setDeviceId(String deviceId) {
-        this.deviceId = deviceId;
-    }
-
-    public String getDeviceKey() {
-        return deviceKey;
-    }
-
-    public void setDeviceKey(String deviceKey) {
-        this.deviceKey = deviceKey;
-    }
-
-    public List<String> getUserIds() {
-        return userIds;
-    }
-
-    public void setUserIds(List<String> userIds) {
-        this.userIds = userIds;
-    }
-
-    // Constructors, getters, and setters
-
-
-    public Device(String deviceId, String deviceKey) {
-        this.deviceId = deviceId;
-        this.deviceKey = deviceKey;
+    public void setHashedPassword(String hashedPassword) {
+        this.hashedPassword = hashedPassword;
     }
 }

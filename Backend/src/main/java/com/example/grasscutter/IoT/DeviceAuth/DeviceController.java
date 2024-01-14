@@ -1,90 +1,43 @@
 package com.example.grasscutter.IoT.DeviceAuth;
 
+import com.example.grasscutter.MobileApplication.Auth.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/devices")
+@RequestMapping(path = "/device")
 public class DeviceController {
 
-    private final DeviceService deviceService;
+    @Autowired
+    private DeviceAuthenticationService deviceAuthenticationService;
 
     @Autowired
-    public DeviceController(DeviceService deviceService) {
-        this.deviceService = deviceService;
-    }
+    private UserServiceImpl userService;
 
-    @GetMapping
-    public ResponseEntity<List<Device>> getAllDevices() {
-        List<Device> devices = deviceService.getAllDevices();
-        return new ResponseEntity<>(devices, HttpStatus.OK);
-    }
-
-    @GetMapping("/{deviceId}")
-    public ResponseEntity<Device> getDeviceById(@PathVariable String deviceId) {
-        Device device = deviceService.getDeviceById(deviceId);
-        if (device != null) {
-            return new ResponseEntity<>(device, HttpStatus.OK);
+    @PostMapping("/authenticate")
+    public String authenticateDevice(
+            @RequestParam String userId,
+            @RequestParam String deviceId,
+            @RequestParam String password) {
+        if (deviceAuthenticationService.authenticateDevice(deviceId, password)) {
+            // Check if the device is already associated with another user
+            String existingUser = userService.getUserByDevice(deviceId);
+            if (existingUser != null && existingUser.equals(userId)) {
+                return "Device is already added to your application";
+            } else if (existingUser != null) {
+                return "Device is already associated with another user";
+            } else {
+                // If authentication is successful and the device is not associated with another user,
+                // add the device to the specific user
+                userService.addDeviceToUser(userId, deviceId);
+                return "Authentication successful";
+            }
         } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return "Authentication failed";
         }
-    }
-
-    @PostMapping("/devices")
-    public ResponseEntity<Device> addDevice(@RequestHeader("Device-Id") String deviceId,
-                                            @RequestHeader("Device-Key") String key) {
-        // Validate and process the device ID and key as needed
-
-        // Create a new Device object with the extracted information
-        Device device = new Device(deviceId, key);
-        device.setDeviceId(deviceId);
-        device.setDeviceKey(key);
-
-        // Add the device using your service
-        Device addedDevice = deviceService.addDevice(device);
-
-        // Return the added device in the response
-        return new ResponseEntity<>(addedDevice, HttpStatus.CREATED);
-    }
-
-
-    @PutMapping("/{deviceId}")
-    public ResponseEntity<Device> updateDevice(@PathVariable String deviceId, @RequestBody Device device) {
-        if (deviceService.getDeviceById(deviceId) != null) {
-            device.setId(deviceId);
-            Device updatedDevice = deviceService.updateDevice(device);
-            return new ResponseEntity<>(updatedDevice, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
-
-    @DeleteMapping("/{deviceId}")
-    public ResponseEntity<Void> deleteDevice(@PathVariable String deviceId) {
-        if (deviceService.getDeviceById(deviceId) != null) {
-            deviceService.deleteDevice(deviceId);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
-
-    // Additional endpoints for handling user-device associations
-
-    @PostMapping("/{deviceId}/users/{userId}")
-    public ResponseEntity<Void> addUserToDevice(@PathVariable String deviceId, @PathVariable String userId) {
-        deviceService.addUserToDevice(deviceId, userId);
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-    @DeleteMapping("/{deviceId}/users/{userId}")
-    public ResponseEntity<Void> removeUserFromDevice(@PathVariable String deviceId, @PathVariable String userId) {
-        deviceService.removeUserFromDevice(deviceId, userId);
-        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
 
