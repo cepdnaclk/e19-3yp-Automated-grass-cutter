@@ -15,8 +15,8 @@ public class MQTTConfig {
 
     String clientEndpoint = "a2ol1u6jexvsgb-ats.iot.ap-south-1.amazonaws.com";   // use value returned by describe-endpoint --endpoint-type "iot:Data-ATS"
     String clientId = "LawnMate1";                               // replace with your own client ID. Use unique client IDs for concurrent connections.
-    String awsAccessKeyId = "AKIAS6B2C4XUCYW6VEWM";
-    String awsSecretAccessKey ="qdKyj5NC/Kv/4YT3/RPNV9A0ivdGDe+baaKLmtow";
+    String awsAccessKeyId = "AKIAS6B2C4XUM3GPLPND";
+    String awsSecretAccessKey ="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";
 
     AWSIotMqttClient client = null;
 
