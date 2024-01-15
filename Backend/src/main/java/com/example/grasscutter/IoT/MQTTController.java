@@ -1,9 +1,6 @@
 package com.example.grasscutter.IoT;
 
 import com.amazonaws.services.iot.client.AWSIotException;
-import com.example.grasscutter.IoT.MQTTService.MqttPubSubService;
-import com.example.grasscutter.IoT.dto.LawnmatePayload;
-import com.example.grasscutter.IoT.util.MQTTConfig;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
