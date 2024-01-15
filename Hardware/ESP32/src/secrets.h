@@ -1,6 +1,11 @@
 #include <pgmspace.h>
 
 #define SECRET 
+
+const char WIFI_SSID[] = "Achsuthan";               
+const char WIFI_PASSWORD[] = "B61A14d1";           
+
+
 #define THINGNAME "lawnmate"
  
 int8_t TIME_ZONE = -5; //NYC(USA): -5 UTC
