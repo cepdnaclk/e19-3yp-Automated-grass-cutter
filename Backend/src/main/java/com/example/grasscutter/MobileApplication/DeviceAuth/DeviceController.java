@@ -4,9 +4,10 @@ import com.amazonaws.services.iot.client.AWSIotException;
 import com.example.grasscutter.IoT.MQTTConfig;
 import com.example.grasscutter.MobileApplication.UserAuth.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(path = "/device")
@@ -44,16 +45,5 @@ public class DeviceController {
             return "Authentication failed";
         }
     }
-
-//    @GetMapping("/all")
-//    public List<Device> getAllDevicesForUser(@RequestParam String userId) {
-//        return deviceAuthenticationService.getAllDevicesForUser(userId);
-//    }
-//
-//    @DeleteMapping("/delete")
-//    public String deleteDevice(@RequestParam String deviceId) {
-//        deviceAuthenticationService.deleteDeviceById(deviceId);
-//        return "Device deleted successfully";
-//    }
 }
 
