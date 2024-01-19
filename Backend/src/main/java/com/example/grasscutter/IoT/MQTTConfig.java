@@ -3,7 +3,6 @@ package com.example.grasscutter.IoT;
 import com.amazonaws.services.iot.client.*;
 
 
-import com.example.grasscutter.IoT.Data.AngleDistancePair;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -18,17 +17,14 @@ import java.util.List;
 @Configuration
 public class MQTTConfig {
 
-    String clientEndpoint = "a2ol1u6jexvsgb-ats.iot.ap-south-1.amazonaws.com";   // use value returned by describe-endpoint --endpoint-type "iot:Data-ATS"
-    //String clientId = "LawnMate2";                               // replace with your own client ID. Use unique client IDs for concurrent connections.
+    @Autowired
+    private MongoTemplate mongoTemplate;
+    String clientEndpoint = "a2ol1u6jexvsgb-ats.iot.ap-south-1.amazonaws.com";
     String awsAccessKeyId = "AKIAS6B2C4XUM3GPLPND";
     String awsSecretAccessKey ="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";
-
     private List<AngleDistancePair> temporaryData = new ArrayList<>();
-    AWSIotMqttClient client = null;
-
     private boolean addingData = true;
 
-    // Other methods
 
     public void stopAddingData() {
         addingData = false;
@@ -36,24 +32,6 @@ public class MQTTConfig {
         temporaryData.clear();
         addingData =true;
     }
-
-    // AWS IAM credentials could be retrieved from AWS Cognito, STS, or other secure sources
-    public void connectToIot(String clientId) throws AWSIotException {
-        client = new AWSIotMqttClient(clientEndpoint, clientId, awsAccessKeyId, awsSecretAccessKey, null);
-
-        // optional parameters can be set before connect()
-        client.connect();
-
-        System.out.println("Connected to IOT");
-
-    }
-
-    @Autowired
-    private MongoTemplate mongoTemplate;
-
-    private final ObjectMapper objectMapper = new ObjectMapper();
-
-    // ...
 
     public void subscribeToTopic(String topic, String clientId) throws AWSIotException {
         // Make sure the client is connected before subscribing
@@ -72,30 +50,10 @@ public class MQTTConfig {
                     // Create an AngleDistancePair and store it in the list
                     AngleDistancePair pair = new AngleDistancePair(angle, distance);
                     temporaryData.add(pair);
-
-                    // Save the payload to MongoDB along with the userId
-                    //saveToMongo(temporaryData);
                 }
             }
         };
-
-        // Subscribe to the specified topic
         subscriptionClient.subscribe(iotTopic, true);
-    }
-
-    public void publish(LawnmatePayload payload,String clientId) throws AWSIotException, JsonProcessingException {
-        String topic = "topic1";
-        AWSIotQos qos = AWSIotQos.QOS0;
-        long timeout = 3000;                    // milliseconds
-        ObjectMapper mapper = new ObjectMapper();
-
-        AWSIotDevice device = new AWSIotDevice(clientId);
-
-        client.attach(device);
-        client.connect();
-
-        MyMessage message = new MyMessage(topic, qos, mapper.writeValueAsString(payload));
-        client.publish(message,timeout);
     }
 
     private void saveToMongo(List<AngleDistancePair> data) {

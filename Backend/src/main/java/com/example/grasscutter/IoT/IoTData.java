@@ -1,6 +1,5 @@
 package com.example.grasscutter.IoT;
 
-import com.example.grasscutter.IoT.Data.AngleDistancePair;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;

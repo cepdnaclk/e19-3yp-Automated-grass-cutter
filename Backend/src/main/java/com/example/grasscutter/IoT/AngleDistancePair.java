@@ -1,7 +1,4 @@
-package com.example.grasscutter.IoT.Data;
-
-import java.util.ArrayList;
-import java.util.List;
+package com.example.grasscutter.IoT;
 
 public class AngleDistancePair {
     private double angle;
