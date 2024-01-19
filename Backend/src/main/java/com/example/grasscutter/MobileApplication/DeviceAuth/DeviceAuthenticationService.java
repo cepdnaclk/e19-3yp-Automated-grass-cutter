@@ -26,12 +26,4 @@ public class DeviceAuthenticationService {
         return false; // Device ID not found
     }
 
-//    public List<Device> getAllDevicesForUser(String userId) {
-//        return deviceRepository.findByUserId(userId);
-//    }
-//
-//    // Delete a device by ID
-//    public void deleteDeviceById(String deviceId) {
-//        deviceRepository.deleteById(deviceId);
-//    }
 }

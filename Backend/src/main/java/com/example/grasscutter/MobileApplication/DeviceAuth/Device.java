@@ -11,8 +11,6 @@ public class Device {
 
     private String hashedPassword;
 
-    // Getters and setters
-
     public String getId() {
         return id;
     }
