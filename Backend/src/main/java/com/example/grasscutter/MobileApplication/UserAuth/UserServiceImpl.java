@@ -198,5 +198,35 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    public void removeDeviceFromUser(String userId, String deviceId) {
+        try {
+            // Step 1: Get the user from the UserRepository
+            User user = userRepository.findById(userId)
+                    .orElseThrow(() -> new RuntimeException("User not found with ID: " + userId));
+
+            // Step 2: Remove the deviceId from the user's list of devices
+            user.getDevices().remove(deviceId);
+
+            // Step 3: Save the updated user back to the repository
+            userRepository.save(user);
+        } catch (Exception e) {
+            // Handle any exceptions that might occur during the process
+            e.printStackTrace();
+            throw new RuntimeException("Error removing device from user: " + e.getMessage());
+        }
+    }
+
+    @Override
+    public List<String> getAllDevicesForUser(String userId) {
+        try {
+            User user = userRepository.findById(userId)
+                    .orElseThrow(() -> new RuntimeException("User not found with ID: " + userId));
+            return user.getDevices();
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Error getting devices for user: " + e.getMessage());
+        }
+    }
+
 
 }

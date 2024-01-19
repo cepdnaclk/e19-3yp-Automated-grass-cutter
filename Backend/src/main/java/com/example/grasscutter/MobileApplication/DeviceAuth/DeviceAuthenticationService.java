@@ -3,6 +3,8 @@ package com.example.grasscutter.MobileApplication.DeviceAuth;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -23,4 +25,13 @@ public class DeviceAuthenticationService {
 
         return false; // Device ID not found
     }
+
+//    public List<Device> getAllDevicesForUser(String userId) {
+//        return deviceRepository.findByUserId(userId);
+//    }
+//
+//    // Delete a device by ID
+//    public void deleteDeviceById(String deviceId) {
+//        deviceRepository.deleteById(deviceId);
+//    }
 }

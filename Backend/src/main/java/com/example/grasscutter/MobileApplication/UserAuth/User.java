@@ -1,6 +1,7 @@
 package com.example.grasscutter.MobileApplication.UserAuth;
 
 import lombok.Getter;
+import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -11,6 +12,7 @@ import java.util.List;
 @Document(collection = "users")
 public class User {
 
+    @Setter
     @Id
     private String userId;
 
@@ -34,8 +36,15 @@ public class User {
         return userId;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    // Remove a device from the user's list
+    public void removeDevice(String deviceId) {
+        devices.remove(deviceId);
     }
+
+    // Get the list of devices associated with the user
+    public List<String> getDevices() {
+        return devices;
+    }
+
 }
 
