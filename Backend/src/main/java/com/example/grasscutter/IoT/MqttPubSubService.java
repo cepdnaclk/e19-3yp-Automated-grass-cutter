@@ -13,7 +13,9 @@ public class MqttPubSubService {
     @Autowired
     MQTTConfig mqttConfig;
     public void publishMessage(LawnmatePayload payload) throws AWSIotException, JsonProcessingException {
-        mqttConfig.connectToIot();
-        mqttConfig.publish(payload);
+        String deviceId = payload.getDeviceId();
+
+        mqttConfig.connectToIot(deviceId);
+        mqttConfig.publish(payload, deviceId);
     }
 }

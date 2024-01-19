@@ -10,4 +10,14 @@ public class LawnmatePayload {
     }
 
     String boundary;
+
+    public String getDeviceId() {
+        return deviceId;
+    }
+
+    public void setDeviceId(String deviceId) {
+        this.deviceId = deviceId;
+    }
+
+    String deviceId;
 }

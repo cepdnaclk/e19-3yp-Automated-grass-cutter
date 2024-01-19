@@ -14,7 +14,7 @@ public class MQTTController {
     MqttPubSubService service;
 
     @PostMapping("/publish")
-    public String publishMessage(@RequestBody LawnmatePayload payload) throws AWSIotException, JsonProcessingException {
+    public String publxishMessage(@RequestBody LawnmatePayload payload) throws AWSIotException, JsonProcessingException {
         service.publishMessage(payload);
         return "Message published Successfully";
     }
@@ -22,15 +22,15 @@ public class MQTTController {
     @Autowired
     private MQTTConfig mqttConfig;
 
-    @PostMapping("/subscribe")
-    public ResponseEntity<String> subscribeToTopic() {
-        try {
-            mqttConfig.subscribeToTopic("topic1");
-            return ResponseEntity.ok("Subscribed to topic1");
-        } catch (AWSIotException e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error subscribing to topic1");
-        }
-    }
+//    @PostMapping("/subscribe")
+//    public ResponseEntity<String> subscribeToTopic() {
+//        try {
+//            mqttConfig.subscribeToTopic("sub");
+//            return ResponseEntity.ok("Subscribed to sub");
+//        } catch (AWSIotException e) {
+//            e.printStackTrace();
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error subscribing to topic1");
+//        }
+//    }
 }
 

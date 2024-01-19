@@ -1,21 +1,20 @@
 package com.example.grasscutter.MobileApplication.UserAuth;
 
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 @RestController
 @RequestMapping(path = "/users")
 public class UserController {
     @Autowired
-    private UserService userService;
+    private UserServiceImpl userService;
 
     @PostMapping(path = "/signup", consumes = {MediaType.APPLICATION_JSON_VALUE},
             produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -28,8 +27,35 @@ public class UserController {
         return ResponseEntity.ok(userService.signIn(loginDto));
     }
 
-    @GetMapping(path = "/data")
-    public ResponseEntity<?> data() {
-        return ResponseEntity.ok(Arrays.asList("Hello world!"));
+//    @GetMapping(path = "/data")
+//    public ResponseEntity<?> data() {
+//        return ResponseEntity.ok(Arrays.asList("Hello world!"));
+//    }
+
+    @DeleteMapping(path = "/remove-device",
+            produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<String> removeDeviceFromUser(
+            @RequestParam String userId,
+            @RequestParam String deviceId) {
+        try {
+            userService.removeDeviceFromUser(userId, deviceId);
+            return ResponseEntity.ok("Device removed from user successfully.");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body("Error removing device from user: " + e.getMessage());
+        }
     }
+
+    @GetMapping(path = "/devices",
+            produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<List<String>> getAllDevicesForUser(@RequestParam String userId) {
+        try {
+            List<String> devices = userService.getAllDevicesForUser(userId);
+            return ResponseEntity.ok(devices);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body(Collections.emptyList());
+        }
+    }
+
 }
