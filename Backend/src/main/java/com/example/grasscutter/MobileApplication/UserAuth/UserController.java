@@ -1,13 +1,12 @@
 package com.example.grasscutter.MobileApplication.UserAuth;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Collections;
+import java.util.List;
 
 
 @RestController
@@ -26,11 +25,6 @@ public class UserController {
     public ResponseEntity<SignInResponseDto> signIn(@RequestBody SignInRequestDto loginDto) {
         return ResponseEntity.ok(userService.signIn(loginDto));
     }
-
-//    @GetMapping(path = "/data")
-//    public ResponseEntity<?> data() {
-//        return ResponseEntity.ok(Arrays.asList("Hello world!"));
-//    }
 
     @DeleteMapping(path = "/remove-device",
             produces = {MediaType.APPLICATION_JSON_VALUE})

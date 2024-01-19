@@ -10,17 +10,17 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping(path = "/iot")
 public class MQTTController {
-    @Autowired
-    MqttPubSubService service;
-
-    @PostMapping("/publish")
-    public String publxishMessage(@RequestBody LawnmatePayload payload) throws AWSIotException, JsonProcessingException {
-        service.publishMessage(payload);
-        return "Message published Successfully";
-    }
-
-    @Autowired
-    private MQTTConfig mqttConfig;
+//    @Autowired
+//    MqttPubSubService service;
+//
+//    @PostMapping("/publish")
+//    public String publxishMessage(@RequestBody LawnmatePayload payload) throws AWSIotException, JsonProcessingException {
+//        service.publishMessage(payload);
+//        return "Message published Successfully";
+//    }
+//
+//    @Autowired
+//    private MQTTConfig mqttConfig;
 
 //    @PostMapping("/subscribe")
 //    public ResponseEntity<String> subscribeToTopic() {
