@@ -38,7 +38,7 @@ public class DeviceController {
                 // If authentication is successful and the device is not associated with another user,
                 // add the device to the specific user
                 userService.addDeviceToUser(userId, deviceId);
-                mqttConfig.subscribeToTopic("pub", deviceId);
+                mqttConfig.subscribeToTopic(String.format("%s/pub",deviceId), userId);
                 return String.format("Authentication successful, subscribe to topic sub to deviceId: %s", deviceId);
             }
         } else {

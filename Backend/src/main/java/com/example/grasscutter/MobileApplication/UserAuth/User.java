@@ -1,5 +1,6 @@
 package com.example.grasscutter.MobileApplication.UserAuth;
 
+import com.example.grasscutter.IoT.AngleDistancePair;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
@@ -7,36 +8,58 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
 
-@Getter
 @Document(collection = "users")
 public class User {
 
-    @Setter
     @Id
-    private String userId;
+    private String id;
 
-    // List to store device IDs associated with the user
     private List<String> devices;
-    public User(String userId) {
-        this.userId = userId;
-        this.devices = new ArrayList<>();
+    private Map<String, List<AngleDistancePair>> locationData;
 
+    public void setLocationData(Map<String, List<AngleDistancePair>> locationData) {
+        this.locationData = locationData;
     }
 
 
-    // Add a device to the user's list
+
+    public User(String id) {
+        this.id = id;
+        this.devices = new ArrayList<>();
+        this.locationData = new HashMap<>();
+    }
+
+    public void addDataForLocation(String locationName, List<AngleDistancePair> data) {
+        // Check if locationData is null or doesn't contain the key
+        if (locationData == null) {
+            locationData = new HashMap<>();
+            locationData.put(locationName, data);
+        } else if (!locationData.containsKey(locationName)) {
+            locationData.put(locationName, data);
+        } else {
+            // Handle the case where the location name already exists
+            throw new IllegalArgumentException("Location name '" + locationName + "' already exists. Please change the location name.");
+        }
+    }
+
+
+
+    public Map<String, List<AngleDistancePair>> getLocationData() {
+        return locationData;
+    }
     public void addDevice(String deviceId) {
         devices.add(deviceId);
     }
     public String getUserId() {
-        return userId;
+        return id;
     }
     // Remove a device from the user's list
     public void removeDevice(String deviceId) {
         devices.remove(deviceId);
     }
-    // Get the list of devices associated with the user
     public List<String> getDevices() {
         return devices;
     }

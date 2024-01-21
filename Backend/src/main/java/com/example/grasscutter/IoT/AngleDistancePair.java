@@ -8,9 +8,6 @@ public class AngleDistancePair {
         this.angle = angle;
         this.distance = distance;
     }
-
-    // Getters for angle and distance
-
     public double getAngle() {
         return angle;
     }

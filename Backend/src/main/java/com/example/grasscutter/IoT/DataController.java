@@ -4,24 +4,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/data")
 public class DataController {
-
     private final MQTTConfig mqttConfig;
-
     @Autowired
     public DataController(MQTTConfig mqttConfig) {
         this.mqttConfig = mqttConfig;
     }
-
     @GetMapping("/stopAdding")
-    public ResponseEntity<String> stopAddingData() {
+    public ResponseEntity<String> stopAddingData(@RequestParam String userId, @RequestParam String locationName) {
         try {
-            mqttConfig.stopAddingData();
-            return ResponseEntity.ok("Stopped adding data and saved to MongoDB");
+            mqttConfig.stopAddingData(userId, locationName);
+            return ResponseEntity.ok("Stopped adding data and saved to MongoDB for User ID: " + userId + ", Location: " + locationName);
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(500).body("Error stopping data addition: " + e.getMessage());

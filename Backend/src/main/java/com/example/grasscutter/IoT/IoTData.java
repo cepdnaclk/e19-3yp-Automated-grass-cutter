@@ -6,13 +6,13 @@ import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.util.List;
 
+
 @Document(collection = "location")
 public class IoTData {
 
     @Id
-    private String id;
+    private String userId;
     private String payload;
-
     public List<AngleDistancePair> getAngleDistancePairs() {
         return angleDistancePairs;
     }
@@ -51,12 +51,12 @@ public class IoTData {
         this.payload = payload;
     }
 
-    public String getId() {
-        return id;
+    public String getuserId() {
+        return userId;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setuserId(String userId) {
+        this.userId = userId;
     }
 
     public String getPayload() {
@@ -70,7 +70,7 @@ public class IoTData {
     @Override
     public String toString() {
         return "IoTData{" +
-                "id='" + id + '\'' +
+                "userId='" + userId + '\'' +
                 ", payload='" + payload + '\'' +
                 '}';
     }
