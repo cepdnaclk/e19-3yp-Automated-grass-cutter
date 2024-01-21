@@ -3,6 +3,7 @@ package com.example.grasscutter.MobileApplication.UserAuth;
 import com.amazonaws.services.cognitoidp.model.*;
 //import javax.persistence.EntityNotFoundException; // Import for EntityNotFoundException
 
+import com.example.grasscutter.IoT.AngleDistancePair;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -227,6 +228,43 @@ public class UserServiceImpl implements UserService {
             throw new RuntimeException("Error getting devices for user: " + e.getMessage());
         }
     }
+
+    @Override
+    public User getUserById(String userId) {
+        // Implement the logic to retrieve a user by ID from your data source (e.g., database)
+        // You might use userRepository.findById(userId) or a similar method
+        return userRepository.findById(userId).orElse(null);
+    }
+
+    public void saveToUserMongo(String userId, String locationName, List<AngleDistancePair> data) {
+        try {
+            // Retrieve the existing User object from MongoDB (if it exists)
+            User existingUser = userRepository.findById(userId)
+                    .orElseThrow(() -> new RuntimeException("User not found with ID: " + userId));
+
+            // If the User object exists, update it with the new data for the specified location
+            if (existingUser != null) {
+
+                if (existingUser.getLocationData() == null) {
+                    existingUser.setLocationData(new HashMap<>());
+                }
+                existingUser.addDataForLocation(locationName, data);
+
+                // Save the updated User object back to MongoDB
+                userRepository.save(existingUser);
+
+                System.out.println("Updated and saved existing User in MongoDB: " + data.toString() + " for User ID: " + userId + ", Location: " + locationName);
+            } else {
+                // Handle the case where the User object doesn't exist
+                System.out.println("User does not exist in MongoDB for ID: " + userId);
+            }
+        } catch (Exception e) {
+            e.printStackTrace(); // Log or handle the exception appropriately
+            System.err.println("Failed to save/update User in MongoDB");
+        }
+    }
+
+
 
 
 }
