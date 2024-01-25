@@ -42,7 +42,7 @@ public class DeviceController {
             } else {
 
                 userService.addDeviceToUser(userId, deviceId);
-                mqttConfig.subscribeToTopic(String.format("%s/pub",deviceId), userId);
+               // mqttConfig.subscribeToTopic(String.format("%s/pub",deviceId), userId);
                 return String.format("Authentication successful, subscribe to topic sub to deviceId: %s", deviceId);
             }
         } else {
