@@ -66,6 +66,19 @@ public class MQTTConfig {
         subscriptionClient.subscribe(iotTopic, true);
     }
 
+    public void unsubscribeFromTopic(String topic, String clientId) throws AWSIotException {
+        clientId = clientId + "_" + UUID.randomUUID();
+        System.out.println(clientId);
+        AWSIotMqttClient mqttClient = new AWSIotMqttClient(clientEndpoint, clientId, awsAccessKeyId, awsSecretAccessKey, null);
+        mqttClient.connect();
+
+        AWSIotTopic iotTopic = new AWSIotTopic(topic, AWSIotQos.QOS1);
+
+        mqttClient.unsubscribe(iotTopic);
+
+        mqttClient.disconnect();
+    }
+
     private double parseAngleFromPayload(String payload) {
         try {
             // Parse the JSON payload

@@ -102,13 +102,27 @@ public class UserController {
     }
 
     @GetMapping("/stopAdding")
-    public ResponseEntity<String> stopAddingData(@RequestParam String userId, @RequestParam String locationName) {
+    public ResponseEntity<String> stopAddingData(@RequestParam String userId,@RequestParam String deviceId, @RequestParam String locationName) {
         try {
             mqttConfig.stopAddingData(userId, locationName);
+            mqttConfig.unsubscribeFromTopic(String.format("%s/pub", deviceId), userId);
             return ResponseEntity.ok("Stopped adding data and saved to MongoDB for User ID: " + userId + ", Location: " + locationName);
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(500).body("Error stopping data addition: " + e.getMessage());
+        }
+    }
+
+    @PostMapping("/select")
+    public ResponseEntity<String> selectDevice(
+            @RequestParam String deviceId,
+            @RequestParam String userId) {
+        try {
+            mqttConfig.subscribeToTopic(String.format("%s/pub", deviceId), userId);
+            return ResponseEntity.ok("Subscribed to device topic successfully.");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body("Error subscribing to device topic: " + e.getMessage());
         }
     }
 

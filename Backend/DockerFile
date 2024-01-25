@@ -1,4 +1,0 @@
-FROM openjdk:11
-LABEL maintainer = "Lawnmate.com"
-ADD target/grasscutter-0.0.1-SNAPSHOT.jar springboot-docker-lawnmate.jar
-ENTRYPOINT ["java", "jar", "springboot-docker-lawnmate.jar"]
