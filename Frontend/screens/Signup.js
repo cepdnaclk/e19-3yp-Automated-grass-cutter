@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, Text, SafeAreaView, TouchableOpacity, TextInput, Alert } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity, TextInput, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { Ionicons } from '@expo/vector-icons';
 import { signupUser } from '../api/api';
 
 export default function Signup() {
@@ -31,7 +30,7 @@ export default function Signup() {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       <Text style={styles.text}>Email</Text>
       <TextInput
         style={styles.input}
@@ -67,7 +66,7 @@ export default function Signup() {
       <TouchableOpacity style={styles.button} onPress={handleSignup}>
         <Text style={styles.buttonText}>Submit</Text>
       </TouchableOpacity>
-    </SafeAreaView>
+    </View>
   );
 }
 
@@ -83,6 +82,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
     marginBottom: 20,
     textAlign: 'left',
+    color: '#000000',
   },
   input: {
     width: 300,
@@ -92,6 +92,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 5,
     borderColor: '#a0a89e',
+    color: '#000000',
   },
   passwordContainer: {
     flexDirection: 'row',
@@ -109,6 +110,7 @@ const styles = StyleSheet.create({
     height: 40,
     width: 300,
     paddingRight: 40,
+    color: '#000000',
   },
   eyeIconContainer: {
     position: 'absolute',

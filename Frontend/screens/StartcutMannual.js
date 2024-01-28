@@ -6,7 +6,7 @@ import { PermissionsAndroid } from 'react-native';
 import {useRoute, useNavigation} from '@react-navigation/native';
 import axios from 'axios';
 
-export default function Mannual() {
+export default function StartcutMannual() {
   const [isBluetoothEnabled, setIsBluetoothEnabled] = useState(false);
   const [isConnected, setIsConnected] = useState(false);
   const navigation = useNavigation();
@@ -182,7 +182,7 @@ export default function Mannual() {
       {/* Arrow Buttons in 3x3 Table Layout */}
       {/* Connect Button */}
             <TouchableOpacity style={styles.button} onPress={handleConnectPress}>
-              <Text style={styles.buttonText}>Connect</Text>
+              <Text style={styles.buttonText}>Connect Bluetooth</Text>
             </TouchableOpacity>
 
       <View style={styles.arrowTable}>
@@ -264,16 +264,17 @@ const styles = StyleSheet.create({
         fontSize: 18,
         paddingHorizontal: 30,
         paddingVertical: 10,
-        backgroundColor: '#a0a89e',
+        backgroundColor: '#000000',
         borderRadius: 50,
         elevation: 3,
         alignItems: 'center',
         justifyContent: 'center',
         marginTop: 20,
+
       },
       buttonText: {
           color: '#000000',
-          fontSize: 16,
+          fontSize: 20,
         },
   arrowTable: {
     flexDirection: 'column',

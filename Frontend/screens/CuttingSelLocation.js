@@ -3,11 +3,13 @@ import { StyleSheet, View, Text, TouchableOpacity, StatusBar, Image } from 'reac
 import { useNavigation, useRoute } from '@react-navigation/native';
 import axios from 'axios';
 
-export default function Addlocation() {
+export default function CuttingSelLocation() {
   const navigation = useNavigation();
   const route = useRoute();
   const userId = route.params?.userId;
-  console.log('User ID:', userId);
+  const deviceId = route.params?.deviceId;
+  console.log('Cutting-location User ID:', userId);
+  console.log('Cutting-location device ID:', deviceId);
 
   const [locations, setLocations] = useState([]);
 
@@ -32,15 +34,12 @@ export default function Addlocation() {
   return (
     <View style={styles.container}>
       {locations.map((location, index) => (
-        <TouchableOpacity key={index} style={styles.locationBox}>
+        <TouchableOpacity key={index} style={styles.locationBox} onPress={() => navigation.navigate('StartCut', { userId: userId , Location: location , deviceId: deviceId })}>
           <Image source={require('../assets/locationicon.png')} style={styles.locationIcon} />
           <Text style={styles.locationName}>Location name: {location}</Text>
         </TouchableOpacity>
       ))}
 
-      <TouchableOpacity style={styles.buttonlog} onPress={() => navigation.navigate('Selectdevice', { userId: userId })}>
-        <Text style={styles.buttonText}>Add Location</Text>
-      </TouchableOpacity>
       <StatusBar style="auto" />
     </View>
   );

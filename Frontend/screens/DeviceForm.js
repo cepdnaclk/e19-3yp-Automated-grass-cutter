@@ -1,12 +1,17 @@
-import React, { useState } from 'react';
-import { StyleSheet, View, Text, SafeAreaView, TouchableOpacity, TextInput, Alert } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import { Ionicons } from '@expo/vector-icons';
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, View, Text, TouchableOpacity, TextInput, Alert } from 'react-native';
+import { useNavigation, useRoute  } from '@react-navigation/native';
+import axios from 'axios';
 
 export default function DeviceForm() {
   const navigation = useNavigation();
   const [deviceId, setDeviceId] = useState('');
   const [deviceName, setDeviceName] = useState('');
+  const [password, setPassword] = useState('');
+
+  const route = useRoute();
+  const userId = route.params?.userId;
+  console.log('Device form User ID:', userId);
 
   const handleDevice = () => {
     // Handle form submission logic here
@@ -16,8 +21,35 @@ export default function DeviceForm() {
     console.log("Device Name:", deviceName);
   };
 
+  const handleaddDevice = async () => {
+                try {
+                  console.log("Device ID:", deviceId);
+                  console.log("Password:", password);
+                  const response = await axios.post(`http://13.126.128.212:8080/device/authenticate?userId=${userId}&deviceId=${deviceId}&password=${password}`);
+
+                  console.log("Api reponse for add device", response.data);
+                  if (response.data === "Device is already added to your application") {
+                          Alert.alert('Device Already Added', 'The device is already added to your application.');
+                        }else{
+                            navigation.navigate('Home',{ userId: userId });
+                        }
+
+
+                } catch (error) {
+                  console.error('Error fetching locations:', error);
+                }
+              };
+
+  const handleaddDevicePress = () => {
+              // Add the following line to execute handleStopadding when "Finish" is pressed
+              handleaddDevice();
+
+              // Additionally, you can add any other logic you want to perform when the "Finish" button is pressed.
+              console.log('Submit button pressed');
+  };
+
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       <Text style={styles.text}>Device ID</Text>
       <TextInput
         style={styles.input}
@@ -26,26 +58,20 @@ export default function DeviceForm() {
         
       />
 
-      <Text style={styles.text}>Device Name</Text>
+
+
+    <Text style={styles.text}>Password</Text>
       <TextInput
         style={styles.input}
-        value={deviceName}
-        onChangeText={setDeviceName}
+        value={password}
+        onChangeText={setPassword}
         
       />
 
-    <Text style={styles.text}>Key</Text>
-      <TextInput
-        style={styles.input}
-        value={deviceName}
-        
-        
-      />
-
-      <TouchableOpacity style={styles.button} onPress={handleDevice}>
+      <TouchableOpacity style={styles.button} onPress={handleaddDevicePress}>
         <Text style={styles.buttonText}>Submit</Text>
       </TouchableOpacity>
-    </SafeAreaView>
+    </View>
   );
 }
 
@@ -61,6 +87,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
     marginBottom: 10,
     textAlign: 'left',
+    color: '#000000',
   },
   input: {
     width: 300,
@@ -70,6 +97,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 5,
     borderColor: '#a0a89e',
+    color: '#000000',
   },
   button: {
     fontSize: 18,

@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, Image, Text, SafeAreaView, TouchableOpacity, TextInput ,Alert} from 'react-native';
+import { StyleSheet, View, Image, Text,TouchableOpacity, TextInput ,Alert} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { Ionicons } from '@expo/vector-icons';  // Import Ionicons from expo
 import { loginUser } from '../api/api';
 
 export default function Login() {
@@ -9,34 +8,45 @@ export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isPasswordVisible, setPasswordVisible] = useState(false);
-
+  const [userId, setUserId] = useState(null);
   const togglePasswordVisibility = () => {
     setPasswordVisible(prevState => !prevState);
   };
 
   const handleLogin = async () => {
     try {
+      // Logging input values before making the API call
+      console.log('Email:', email);
+      console.log('Password:', password);
+
       // Call the loginUser function with email and password
       const response = await loginUser(email, password);
-      
+
+      // Logging the response for debugging
+      console.log('API Response:', response);
+
       // Check if the response contains accessToken
-      if (response.accessToken) {
+      if (response.accessToken && response.userId) {
         // Navigate to the 'Home' screen
-        navigation.navigate('Home');
+        const userId = response.userId;
+        console.log('UserId:',userId);
+        setUserId(userId);
+        navigation.navigate('Home', { userId: userId });
       } else {
         Alert.alert('Error', 'Login failed. Please try again.');
       }
     } catch (error) {
+      // Logging the detailed error message for debugging
+      console.error('Error logging in:', error);
+
+      // Display a generic error message to the user
       Alert.alert('Error', 'Login failed. Please try again.');
     }
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <Image
-        source={require('../assets/logo.png')}
-        style={styles.logosmall}
-      />
+    <View style={styles.container}>
+      <Image source={require('../assets/logo.png')} style={styles.logosmall} />
       <Text style={styles.text}>LAWNMATE</Text>
       
 
@@ -69,7 +79,7 @@ export default function Login() {
       <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Signup')}>
         <Text style={styles.buttonText}>Signup</Text>
       </TouchableOpacity>
-    </SafeAreaView>
+    </View>
   );
 }
 
@@ -89,10 +99,12 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 30,
     marginTop: 10,
+    color: '#000000',
   },
   normaltext: {
     fontSize: 15,
     marginTop: 30,
+    color: '#000000',
   },
   input: {
     width: 300,
@@ -102,6 +114,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 5,
     borderColor: '#a0a89e',
+    color: '#000000',
   },
   passwordContainer: {
     flexDirection: 'row',
@@ -119,6 +132,7 @@ const styles = StyleSheet.create({
     height: 40,
     width: 300,
     paddingRight: 40,  // Space for the eye icon
+    color: '#000000',
   },
   eyeIconContainer: {
     position: 'absolute',

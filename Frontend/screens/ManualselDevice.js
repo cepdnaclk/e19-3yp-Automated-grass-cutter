@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, StatusBar, Image } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
-import DeviceForm from './DeviceForm'; // Import your DeviceForm component
+
 import axios from 'axios';
-export default function Adddevice() {
+export default function ManualselDevice() {
   const navigation = useNavigation();
   const route = useRoute();
   const userId = route.params?.userId;
-  console.log('User ID:', userId);
+  console.log('Cutting -select -device User ID:', userId);
 
 
 
@@ -35,14 +35,12 @@ export default function Adddevice() {
     <View style={styles.container}>
 
        {Devices.map((device, index) => (
-              <TouchableOpacity key={index} style={styles.locationBox}>
+              <TouchableOpacity key={index} style={styles.locationBox} onPress={() => navigation.navigate('ManualselLocation', { userId: userId, deviceId: device })}>
                 <Image source={require('../assets/deviceicon.png')} style={styles.locationIcon} />
                 <Text style={styles.locationName}>Device name: {device}</Text>
               </TouchableOpacity>
             ))}
-      <TouchableOpacity style={styles.buttonlog} onPress={() => navigation.navigate('DeviceForm',{ userId: userId })}>
-        <Text style={styles.buttonText}>Add Device</Text>
-      </TouchableOpacity>
+
 
 
 

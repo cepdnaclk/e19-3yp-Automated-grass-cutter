@@ -1,12 +1,18 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, Text, SafeAreaView, TouchableOpacity, TextInput, Alert } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { StyleSheet, View, Text, TouchableOpacity, TextInput, Alert } from 'react-native';
+import { useNavigation ,useRoute} from '@react-navigation/native';
 
 export default function Location() {
   const navigation = useNavigation();
   const [locName, setLocName] = useState('');
   const [isLocNameFilled, setIsLocNameFilled] = useState(false);
   const [showMessage, setShowMessage] = useState(false);
+  const route = useRoute();
+  const userId = route.params?.userId;
+  const deviceId = route.params?.deviceId;
+  console.log('Location name User ID:', userId);
+  console.log('Location name device ID:', deviceId);
+
 
   const handleLocNameChange = (text) => {
     setLocName(text);
@@ -20,11 +26,11 @@ export default function Location() {
       Alert.alert('Warning', 'Please specify the location name first.');
       return; 
     }
-    navigation.navigate('Mannual');
+    navigation.navigate('Mannual',{ userId: userId , Location: locName , deviceId: deviceId });
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       
       <Text style={styles.text}>Location Name</Text>
       {/* Name Input */}
@@ -47,7 +53,7 @@ export default function Location() {
 
       {showMessage && <Text style={styles.warningText}>Please specify the location name first.</Text>}
       
-    </SafeAreaView>
+    </View>
   );
 }
 
@@ -64,6 +70,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
     marginBottom: 10,
     textAlign: 'left',
+    color: '#000000',
   },
 
   input: {
@@ -75,6 +82,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     borderColor: '#a0a89e',
     marginBottom: 15,
+    color: '#000000',
   },
 
   addbutton: {
