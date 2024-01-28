@@ -1,7 +1,7 @@
 import React from 'react';
-import { StyleSheet, View, Image, Text, SafeAreaView, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Image, Text, SafeAreaView, TouchableOpacity ,StatusBar} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { StatusBar } from 'expo-status-bar';
+
 
 export default function Welcome() {
   const navigation = useNavigation();
@@ -11,18 +11,17 @@ export default function Welcome() {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+      <View style={styles.container}>
       {/* Logo Image */}
-      <Image
-        source={require('../assets/logo.png')}
-        style={styles.logo}
-      />
+      <Image source={require('../assets/logo.png')} style={styles.logo} />
+
       <Text style={styles.text}>LAWNMATE</Text>
       <TouchableOpacity style={styles.button} onPress={goToLogin}>
         <Text style={styles.buttonText}>Go to Login</Text>
       </TouchableOpacity>
       <StatusBar style="auto" />
-    </SafeAreaView>
+      </View>
+
   );
 }
 
@@ -40,13 +39,14 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 50,
+    color: '#000000',
   },
   button: {
-    fontSize: 18,  
-    paddingHorizontal: 30,  
-    paddingVertical: 10,   
-    backgroundColor: '#a0a89e',  
-    borderRadius: 50,   
+    fontSize: 18,
+    paddingHorizontal: 30,
+    paddingVertical: 10,
+    backgroundColor: '#a0a89e',
+    borderRadius: 50,
     elevation: 3,
     alignItems: 'center',  // Align the text horizontally
     justifyContent: 'center',  // Align the text vertically

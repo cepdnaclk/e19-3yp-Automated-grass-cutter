@@ -1,17 +1,18 @@
 import React from 'react';
-import { StyleSheet, View, Image, Text, SafeAreaView, TouchableOpacity } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import { StatusBar } from 'expo-status-bar';
+import { StyleSheet, View, Image, Text, TouchableOpacity ,StatusBar} from 'react-native';
+import { useNavigation ,useRoute} from '@react-navigation/native';
+
 
 export default function Home() {
   const navigation = useNavigation();
-
+  const route = useRoute();
+  const userId = route.params?.userId;
   const goToLogin = () => {
     navigation.navigate('Login');
   };
-
+  console.log('User ID:', userId);
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       {/* Logo Image */}
       <Image
         source={require('../assets/logo.png')}
@@ -25,7 +26,7 @@ export default function Home() {
         <Text style={styles.boxText}>WELCOME TO LAWNMATE</Text>
         
         {/* Button inside the box */}
-        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Man_or_Auto')}>
+        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Man_or_Auto',{ userId: userId })}>
           <Text style={styles.buttonText}>Start cutting</Text>
         </TouchableOpacity>
       </View>
@@ -37,20 +38,21 @@ export default function Home() {
           <TouchableOpacity style={styles.imageButton} onPress={() => navigation.navigate('Man_or_Auto')}>
             <Image source={require('../assets/homeicon.png')} style={styles.imageButtonImage} />
           </TouchableOpacity>
-          <TouchableOpacity style={styles.imageButton} onPress={() => navigation.navigate('Adddevice')}>
+          <TouchableOpacity style={styles.imageButton} onPress={() => navigation.navigate('Adddevice',{ userId: userId })}>
             <Image source={require('../assets/deviceicon.png')} style={styles.imageButtonImage} />
           </TouchableOpacity>
-          <TouchableOpacity style={styles.imageButton} onPress={() => navigation.navigate('Addlocation')}>
+          <TouchableOpacity style={styles.imageButton} onPress={() => navigation.navigate('Addlocation',{ userId: userId })}>
             <Image source={require('../assets/locationicon.png')} style={styles.imageButtonImage} />
           </TouchableOpacity>
-          <TouchableOpacity style={styles.imageButton} onPress={() => navigation.navigate('Man_or_Auto')}>
-            <Image source={require('../assets/usersicon.png')} style={styles.imageButtonImage} />
-          </TouchableOpacity>
+
         </View>
       </View>
-
+         {/* Logout Button */}
+              <TouchableOpacity style={styles.logoutButton} onPress={() => navigation.navigate('Login')}>
+                <Text style={styles.buttonText}>Logout</Text>
+              </TouchableOpacity>
       <StatusBar style="auto" />
-    </SafeAreaView>
+    </View>
   );
 }
 
@@ -70,6 +72,7 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 30,
     marginBottom: 20,
+    color: '#000000',
   },
   box: {
     width: 300,
@@ -93,6 +96,7 @@ const styles = StyleSheet.create({
     fontSize: 28,
     marginBottom: 10,
     textAlign: 'center',
+    color: '#000000',
   },
   button: {
     fontSize: 18,

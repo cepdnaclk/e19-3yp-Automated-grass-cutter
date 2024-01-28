@@ -1,28 +1,29 @@
 import React from 'react';
-import { StyleSheet, View, Image, Text, SafeAreaView, TouchableOpacity } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import { StatusBar } from 'expo-status-bar';
+import { StyleSheet, View, Image, Text,TouchableOpacity ,StatusBar} from 'react-native';
+import { useNavigation, useRoute } from '@react-navigation/native';
+
 
 export default function Man_or_Auto() {
   const navigation = useNavigation();
-
+  const route = useRoute();
+  const userId = route.params?.userId;
   const goToLogin = () => {
     navigation.navigate('Login');
   };
-
+  console.log('Man_or_Auto User ID:', userId);
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.buttonMan} onPress={() => navigation.navigate('Home')}>
+        <TouchableOpacity style={styles.buttonMan} onPress={() => navigation.navigate('ManualselDevice',{ userId: userId })}>
           <Text style={styles.buttonText}>Mannual</Text>
         </TouchableOpacity>
         
-        <TouchableOpacity style={styles.buttonAuto} onPress={() => navigation.navigate('Home')}>
+        <TouchableOpacity style={styles.buttonAuto} onPress={() => navigation.navigate('CuttingSelDevice',{ userId: userId })}>
           <Text style={styles.buttonText}>Automatic</Text>
         </TouchableOpacity>
       </View>
       <StatusBar style="auto" />
-    </SafeAreaView>
+    </View>
   );
 }
 
